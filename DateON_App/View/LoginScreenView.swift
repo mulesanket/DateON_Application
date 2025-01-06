@@ -8,51 +8,32 @@
 import SwiftUI
 
 struct LoginScreenView: View {
-    @State private var username: String = ""
-    @State private var password: String = ""
-    @State private var isLoginSuccessful: Bool = false
-    @State private var showErrorMessage: Bool = false
+    @StateObject private var viewModel = LoginViewModel()
     
     var body: some View {
-        ZStack {
-            
+        NavigationStack {
             VStack(spacing: 20) {
+                // App Title
                 Text("DateON")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.black)
                     .underline(true, color: Color.pink)
-                    .padding(.bottom, 10)
                 
+                // Subtitle
                 Text("Login")
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(.gray)
                 
+                // Username and Password Fields
                 VStack(spacing: 20) {
-                    // Username TextField
-                    VStack(alignment: .leading, spacing: 5) {
-                        TextField("Enter your username", text: $username)
-                            .padding(.bottom, 5)
-                            .foregroundColor(.black)
-                        
-                        Divider()
-                            .background(Color.pink)
-                    }
-                    
-                    // Password SecureField
-                    VStack(alignment: .leading, spacing: 5) {
-                        SecureField("Enter your password", text: $password)
-                            .padding(.bottom, 5)
-                            .foregroundColor(.black)
-                        
-                        Divider()
-                            .background(Color.pink)
-                    }
+                    CustomTextField(placeholder: "Enter your username", text: $viewModel.enteredUsername)
+                    CustomSecureField(placeholder: "Enter your password", text: $viewModel.enteredPassword)
                 }
                 .padding(.horizontal, 30)
                 
-                // Continue Button Gradient
-                Button(action: handleLogin) {
+                // Login Button
+                Button(action: viewModel.validateLogin) {
                     Text("Continue")
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -62,23 +43,12 @@ struct LoginScreenView: View {
                 }
                 .padding(.horizontal, 30)
                 
-                if showErrorMessage {
+                // Error Message
+                if viewModel.shouldShowErrorMessage {
                     Text("Invalid username or password")
                         .foregroundColor(.red)
                         .font(.footnote)
                 }
-                
-                // Social Media Section
-                Text("or Connect With Social Media")
-                    .foregroundColor(.gray)
-                    .font(.footnote)
-                    .padding(.vertical, 5)
-                
-                VStack(spacing: 15) {
-                    SocialMediaButton(title: "Sign in With Twitter", color: .blue, icon: "bird.fill")
-                    SocialMediaButton(title: "Sign in With Facebook", color: Color.blue.opacity(0.8), icon: "f.circle.fill")
-                }
-                .padding(.horizontal, 30)
                 
                 Spacer()
                 
@@ -94,51 +64,52 @@ struct LoginScreenView: View {
                             .fontWeight(.bold)
                     }
                 }
-                .padding(.bottom, 150)
+                .padding(.top, 20)
             }
             .padding()
-            .background(Color.white)
-            .cornerRadius(5)
-            .padding(.horizontal, 10)
+            .navigationDestination(isPresented: $viewModel.isLoginSuccessful) {
+                HomeScreenView()
+            }
         }
+        .navigationBarHidden(true)
     }
+}
+
+// MARK: - Custom Components for Text Fields
+
+struct CustomTextField: View {
+    var placeholder: String
+    @Binding var text: String
     
-    private func handleLogin() {
-        if username == "Admin" && password == "Admin" {
-            isLoginSuccessful = true
-            showErrorMessage = false
-            print("Login successful")
-        } else {
-            isLoginSuccessful = false
-            showErrorMessage = true
-            print("Login failed")
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            TextField(placeholder, text: $text)
+                .padding(.bottom, 5)
+                .foregroundColor(.black)
+            
+            Divider()
+                .background(Color.pink)
         }
     }
 }
 
-struct SocialMediaButton: View {
-    var title: String
-    var color: Color
-    var icon: String
+struct CustomSecureField: View {
+    var placeholder: String
+    @Binding var text: String
     
     var body: some View {
-        Button(action: {
-            print("\(title) tapped")
-        }) {
-            HStack {
-                Image(systemName: icon)
-                    .foregroundColor(.white)
-                Text(title)
-                    .foregroundColor(.white)
-                    .fontWeight(.semibold)
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(color)
-            .cornerRadius(10)
+        VStack(alignment: .leading, spacing: 5) {
+            SecureField(placeholder, text: $text)
+                .padding(.bottom, 5)
+                .foregroundColor(.black)
+            
+            Divider()
+                .background(Color.pink)
         }
     }
 }
+
+// MARK: - Preview
 
 struct LoginScreenView_Previews: PreviewProvider {
     static var previews: some View {
