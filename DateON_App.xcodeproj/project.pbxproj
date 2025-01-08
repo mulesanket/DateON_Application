@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E66D4ED02D2E695A00D4F90C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E66D4ECF2D2E695A00D4F90C /* GoogleService-Info.plist */; };
-		E66D4ED12D2E695A00D4F90C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E66D4ECF2D2E695A00D4F90C /* GoogleService-Info.plist */; };
-		E66D4ED22D2E695A00D4F90C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E66D4ECF2D2E695A00D4F90C /* GoogleService-Info.plist */; };
 		E66D4ED72D2E6AF700D4F90C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E66D4ED62D2E6AF700D4F90C /* FirebaseAnalytics */; };
 		E66D4ED92D2E6AF700D4F90C /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = E66D4ED82D2E6AF700D4F90C /* FirebaseAnalyticsOnDeviceConversion */; };
 		E66D4EDB2D2E6AF700D4F90C /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = E66D4EDA2D2E6AF700D4F90C /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -38,12 +35,32 @@
 		E621A17F2D268B2C00F1B32A /* DateON_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DateON_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E621A18F2D268B3000F1B32A /* DateON_AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DateON_AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E621A1992D268B3000F1B32A /* DateON_AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DateON_AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E66D4ECF2D2E695A00D4F90C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E64F36BF2D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = E621A18E2D268B3000F1B32A /* DateON_AppTests */;
+		};
+		E64F36C02D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = E621A1982D268B3000F1B32A /* DateON_AppUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E621A1812D268B2C00F1B32A /* DateON_App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E64F36BF2D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppTests" target */,
+				E64F36C02D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppUITests" target */,
+			);
 			path = DateON_App;
 			sourceTree = "<group>";
 		};
@@ -92,7 +109,6 @@
 		E621A1762D268B2C00F1B32A = {
 			isa = PBXGroup;
 			children = (
-				E66D4ECF2D2E695A00D4F90C /* GoogleService-Info.plist */,
 				E621A1812D268B2C00F1B32A /* DateON_App */,
 				E621A1922D268B3000F1B32A /* DateON_AppTests */,
 				E621A19C2D268B3000F1B32A /* DateON_AppUITests */,
@@ -238,7 +254,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E66D4ED02D2E695A00D4F90C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,7 +261,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E66D4ED12D2E695A00D4F90C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,7 +268,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E66D4ED22D2E695A00D4F90C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
