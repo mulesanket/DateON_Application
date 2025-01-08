@@ -2,39 +2,36 @@
 //  LoginScreenView.swift
 //  DateON_App
 //
-//  Created by Sanket Mule on 02/01/25.
+//  Created by Sanket Mule on 08/01/25.
 //
 
 import SwiftUI
 
 struct LoginScreenView: View {
     @StateObject private var viewModel = LoginViewModel()
+    @State private var isRegisterUserSheetPresented = false
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                // App Title
-                Text("DateON")
+                Text(Title.DateON.rawValue)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.black)
                     .underline(true, color: Color.pink)
                 
-                // Subtitle
-                Text("Login")
+                Text(Title.Login.rawValue)
                     .font(.title2)
                     .foregroundColor(.gray)
                 
-                // Username and Password Fields
                 VStack(spacing: 20) {
-                    CustomTextField(placeholder: "Enter your username", text: $viewModel.enteredUsername)
-                    CustomSecureField(placeholder: "Enter your password", text: $viewModel.enteredPassword)
+                    CustomTextField(placeholder: LoginScreenMessage.EnterUserName.rawValue, text: $viewModel.enteredUsername)
+                    CustomSecureField(placeholder: LoginScreenMessage.EnterPassword.rawValue, text: $viewModel.enteredPassword)
                 }
                 .padding(.horizontal, 30)
                 
-                // Login Button
                 Button(action: viewModel.validateLogin) {
-                    Text("Continue")
+                    Text(ButtonTitle.Continue.rawValue)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(LinearGradient(gradient: Gradient(colors: [Color.purple, Color.pink]), startPoint: .leading, endPoint: .trailing))
@@ -43,23 +40,21 @@ struct LoginScreenView: View {
                 }
                 .padding(.horizontal, 30)
                 
-                // Error Message
                 if viewModel.shouldShowErrorMessage {
-                    Text("Invalid username or password")
+                    Text(LoginScreenMessage.InvalidCredentials.rawValue)
                         .foregroundColor(.red)
                         .font(.footnote)
                 }
                 
                 Spacer()
                 
-                // Register Section
                 VStack(spacing: 5) {
-                    Text("Don't have an account?")
+                    Text(LoginScreenMessage.NOaccount.rawValue)
                         .foregroundColor(.gray)
                     Button(action: {
-                        print("Navigate to Register Screen")
+                        isRegisterUserSheetPresented = true
                     }) {
-                        Text("Register here")
+                        Text(LoginScreenMessage.RegisterHere.rawValue)
                             .foregroundColor(.blue)
                             .fontWeight(.bold)
                     }
@@ -72,45 +67,66 @@ struct LoginScreenView: View {
             }
         }
         .navigationBarHidden(true)
-    }
-}
-
-// MARK: - Custom Components for Text Fields
-
-struct CustomTextField: View {
-    var placeholder: String
-    @Binding var text: String
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            TextField(placeholder, text: $text)
-                .padding(.bottom, 5)
-                .foregroundColor(.black)
-            
-            Divider()
-                .background(Color.pink)
+        .sheet(isPresented: $isRegisterUserSheetPresented) {
+            RegisterNewUserView()
         }
     }
-}
-
-struct CustomSecureField: View {
-    var placeholder: String
-    @Binding var text: String
     
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            SecureField(placeholder, text: $text)
-                .padding(.bottom, 5)
-                .foregroundColor(.black)
-            
-            Divider()
-                .background(Color.pink)
+    // MARK: - Custom TextField and SecureField
+    struct CustomTextField: View {
+        var placeholder: String
+        @Binding var text: String
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 5) {
+                TextField(placeholder, text: $text)
+                    .padding(.bottom, 5)
+                    .foregroundColor(.black)
+                
+                Divider()
+                    .background(Color.pink)
+            }
+        }
+    }
+    
+    struct CustomSecureField: View {
+        var placeholder: String
+        @Binding var text: String
+        
+        @State private var isPasswordVisible: Bool = false
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 5) {
+                HStack {
+                    if isPasswordVisible {
+                        TextField(placeholder, text: $text)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                            .foregroundColor(.black)
+                    } else {
+                        SecureField(placeholder, text: $text)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                            .foregroundColor(.black)
+                    }
+                    
+                    Button(action: {
+                        isPasswordVisible.toggle()
+                    }) {
+                        Image(systemName: isPasswordVisible ? "eye.slash" : "eye")
+                        
+                            .foregroundColor(.gray)
+                    }
+                }
+                
+                Divider()
+                    .background(Color.pink)
+            }
         }
     }
 }
 
 // MARK: - Preview
-
 struct LoginScreenView_Previews: PreviewProvider {
     static var previews: some View {
         LoginScreenView()
