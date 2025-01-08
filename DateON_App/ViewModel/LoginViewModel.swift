@@ -1,48 +1,42 @@
 import Foundation
+import Firebase
+import FirebaseAuth
 
 class LoginViewModel: ObservableObject {
     // MARK: - Published Properties
-    @Published var enteredUsername: String = ""       // User-entered username
-    @Published var enteredPassword: String = ""       // User-entered password
-    @Published var isLoginSuccessful: Bool = false    // Tracks login success
-    @Published var shouldShowErrorMessage: Bool = false // Tracks error message visibility
-    
-    // MARK: - Private Properties
-    private var userCredentials: [LoginCredentialsModel] = [] // Valid credentials loaded from JSON
-    
-    // MARK: - Initializer
-    init() {
-        loadUserCredentialsFromJSON()
-    }
+    @Published var enteredUsername: String = ""
+    @Published var enteredPassword: String = ""
+    @Published var isLoginSuccessful: Bool = false
+    @Published var shouldShowErrorMessage: Bool = false
+    @Published var errorMessage: String = ""
     
     // MARK: - Public Methods
-    /// Validates the entered username and password against the loaded credentials
     func validateLogin() {
-        let trimmedUsername = enteredUsername.trimmingCharacters(in: .whitespacesAndNewlines)
-        let trimmedPassword = enteredPassword.trimmingCharacters(in: .whitespacesAndNewlines)
+        let userName = enteredUsername.trimmingCharacters(in: .whitespacesAndNewlines)
+        let userPassword = enteredPassword.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if userCredentials.contains(where: { $0.username == trimmedUsername && $0.password == trimmedPassword }) {
-            isLoginSuccessful = true
-            shouldShowErrorMessage = false
-        } else {
-            isLoginSuccessful = false
+        guard !userName.isEmpty, !userPassword.isEmpty else {
+            errorMessage = "Username and password cannot be empty."
             shouldShowErrorMessage = true
-        }
-    }
-    
-    // MARK: - Private Methods
-    /// Loads credentials from the `logincredential.json` file in the app bundle
-    private func loadUserCredentialsFromJSON() {
-        guard let jsonFileURL = Bundle.main.url(forResource: "LoginCredentials", withExtension: "json") else {
-            print("Error: Could not find logincredential.json in the app bundle.")
             return
         }
         
-        do {
-            let jsonData = try Data(contentsOf: jsonFileURL)
-            userCredentials = try JSONDecoder().decode([LoginCredentialsModel].self, from: jsonData)
-        } catch {
-            print("Error: Failed to load or parse logincredential.json. \(error.localizedDescription)")
+        Auth.auth().signIn(withEmail: userName, password: userPassword) { authResult, error in
+            if let error = error {
+                if let errCode = AuthErrorCode(rawValue: error._code), errCode == .userNotFound {
+                    self.errorMessage = "User not found. Please register first."
+                } else {
+                    self.errorMessage = "Login failed: \(error.localizedDescription)"
+                }
+                DispatchQueue.main.async {
+                    self.shouldShowErrorMessage = true
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.isLoginSuccessful = true
+                    self.shouldShowErrorMessage = false
+                }
+            }
         }
     }
 }

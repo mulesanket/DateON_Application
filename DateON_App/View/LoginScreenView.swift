@@ -25,8 +25,8 @@ struct LoginScreenView: View {
                     .foregroundColor(.gray)
                 
                 VStack(spacing: 20) {
-                    CustomTextField(placeholder: LoginScreenMessage.EnterUserName.rawValue, text: $viewModel.enteredUsername)
-                    CustomSecureField(placeholder: LoginScreenMessage.EnterPassword.rawValue, text: $viewModel.enteredPassword)
+                    UserNameField(placeholder: LoginScreenMessage.EnterEmail.rawValue, text: $viewModel.enteredUsername)
+                    UserPasswordField(placeholder: LoginScreenMessage.EnterPassword.rawValue, text: $viewModel.enteredPassword)
                 }
                 .padding(.horizontal, 30)
                 
@@ -73,7 +73,7 @@ struct LoginScreenView: View {
     }
     
     // MARK: - Custom TextField and SecureField
-    struct CustomTextField: View {
+    struct UserNameField: View {
         var placeholder: String
         @Binding var text: String
         
@@ -82,6 +82,7 @@ struct LoginScreenView: View {
                 TextField(placeholder, text: $text)
                     .padding(.bottom, 5)
                     .foregroundColor(.black)
+                    .autocorrectionDisabled()
                 
                 Divider()
                     .background(Color.pink)
@@ -89,7 +90,7 @@ struct LoginScreenView: View {
         }
     }
     
-    struct CustomSecureField: View {
+    struct UserPasswordField: View {
         var placeholder: String
         @Binding var text: String
         
