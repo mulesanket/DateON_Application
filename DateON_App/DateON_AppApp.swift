@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct DateON_AppApp: App {
+    init() {
+            FirebaseApp.configure()
+        }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginScreenView()
         }
     }
 }

@@ -37,9 +37,30 @@
 		E621A1992D268B3000F1B32A /* DateON_AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DateON_AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E64F36BF2D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = E621A18E2D268B3000F1B32A /* DateON_AppTests */;
+		};
+		E64F36C02D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = E621A1982D268B3000F1B32A /* DateON_AppUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E621A1812D268B2C00F1B32A /* DateON_App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E64F36BF2D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppTests" target */,
+				E64F36C02D2E91AC00C7852F /* Exceptions for "DateON_App" folder in "DateON_AppUITests" target */,
+			);
 			path = DateON_App;
 			sourceTree = "<group>";
 		};
